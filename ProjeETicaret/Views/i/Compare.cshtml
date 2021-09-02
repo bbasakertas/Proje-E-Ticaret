@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "Compare";
+}
+
+<div class="row">
+    <div class="col-md-15">
+        <h3>KARŞILAŞTIRMA SAYFASI</h3>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <form>
+            <div class="row">
+
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-5 col-sm-6 col-xs-30">
+
+                        <center><img src="~/@item.Product.ProductImageName" class="img img-responsive" style= "max-height:200px; max-width:500px;"></center>
+                        <div class="caption">
+                            <h5 class="ProductNameStyle">@item.Product.Name</h5>
+
+                            <p>
+                                <a href="~/i/AddBasket/@item.Product.Id" class="btn btn-success btn-sm">
+                                    <span class="fa fa-shopping-cart"></span>&nbsp;Sepete Ekle
+                                </a>
+                                <button onclick="GetProductInfo(@item.Product.Id)" class="btn btn-info btn-sm">
+                                    <span class="fa fa-info"></span>&nbsp;Bilgi
+                                </button>
+                                <a href="~/i/RemoveCompare/@item.Product.Id" class="btn btn-danger btn-sm">
+                                    <span class="fa fa-trash"></span>&nbsp;Sil
+                                </a>
+                            </p>
+
+                            <h5 class="bg-secondary text-white" "text-primary" "ProductNameStyle">Ürün Açıklaması : @item.Product.Description</h5>
+                            <h5 class="bg-secondary text-white" "text-primary" "ProductNameStyle"> Ürün Fiyatı : @item.Product.Price</h5>
+                            <h5 class="bg-secondary text-white" "text-primary" "ProductNameStyle"> Ürün Yıldızı : @item.Product.StarPoint</h5>
+                            <h5 class="bg-secondary text-white" "text-primary" "ProductNameStyle"> Ürün Kategorisi : @item.Product.Category_Id</h5>
+
+                        </div>
+
+                    </div>
+                }
+            </div>
+        </form>
+
+
+
+    </div>
+</div>
+

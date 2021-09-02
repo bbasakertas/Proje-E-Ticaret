@@ -1,0 +1,30 @@
+﻿@model ProjeETicaret.DB.Products
+
+@{
+    if (string.IsNullOrEmpty(Model.ProductImageName)) //resim yoksa default olarak bastır
+    {
+        Model.ProductImageName = "images/300x150.png";
+    }
+}
+<div class="col-md-3 col-sm-4 col-xs-12">
+    <div class="thumbnail">
+        <img src="~/@Model.ProductImageName" class="img img-responsive" style="max-height:130px;" >
+        <div class="caption">
+            <h5 class="ProductNameStyle">@Model.Name</h5>
+            <p>
+                <a href="~/i/AddBasket/@Model.Id" class="btn btn-success btn-sm" style="width:130px">
+                    <span class="fa fa-shopping-cart"></span>&nbsp;Sepete Ekle
+                </a>
+                <button onclick="GetProductInfo(@Model.Id)" class="btn btn-info btn-sm">
+                    <span class="fa fa-info"></span>&nbsp;Bilgi
+                </button>
+                <a href="~/i/AddFavorities/@Model.Id" class="btn btn-warning btn-sm" style="width:130px;">
+                    <span class="fa fa-heart"></span>&nbsp;Favorilere Ekle
+                </a>
+                <a href="~/i/AddCompare/@Model.Id" class="btn btn-dark btn-sm" style="width:100px;">
+                    <span class="fa fa-compress"></span>&nbsp;Karşılaştır
+                </a>
+            </p>
+        </div>
+    </div>
+</div>

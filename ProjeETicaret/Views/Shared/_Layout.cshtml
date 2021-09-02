@@ -1,0 +1,193 @@
+﻿@{
+    ProjeETicaret.DB.Members logonUser = (ProjeETicaret.DB.Members)Session["LogonUser"];
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta Tags -->
+    <title>@ViewBag.Title - ProjeETicaret</title>
+    <meta http-equiv="content-type" content="text/html;charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- CSS Styles -->
+
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/site.css">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap" rel="stylesheet">
+
+    <!-- JavaScript -->
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+</head>
+
+<body style="background-color:darkslategray">
+
+
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="@Url.Action("index", "i", new { id = 0 })">Giyim</a>
+
+            <div class="collapse navbar-collapse" id="menulist">
+                <ul class="navbar-nav mr-auto ">
+                    <li class="nav-item active">
+                        <a> @Html.Partial("_MenuTopCategory", (List<ProjeETicaret.DB.Categories>)ViewBag.MenuCategories)</a>
+                    </li>
+                </ul>
+
+
+                <ul class="navbar-nav navbar-right">
+                    @if (logonUser == null)
+                    {
+                        <li class="nav-item">
+                            <a class="btn btn-outline-secondary" href="~/Account/Register" style="padding-right: 24px;">
+                                <span class="fa fa-user"></span>&nbsp;Kayıt Ol
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-outline-secondary" href="~/Account/Login">
+                                <span class="fa fa-sign-in"></span>&nbsp;Giriş
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Account/Profil">
+                                <span class="fa fa-user"></span>&nbsp;@($"{logonUser.Name} {logonUser.Surname}")
+                            </a>
+                        </li>
+                    }
+
+                    @{
+                        List<ProjeETicaret.Models.i.BasketModels> basket = (List<ProjeETicaret.Models.i.BasketModels>)Session["Basket"];
+                        if (basket == null)
+                        {
+                            basket = new List<ProjeETicaret.Models.i.BasketModels>();
+                        }
+
+
+                    }
+
+                    @{
+                        List<ProjeETicaret.Models.i.FavoritiesModels> favorities = (List<ProjeETicaret.Models.i.FavoritiesModels>)Session["Favori"];
+                        if (favorities == null)
+                        {
+                            favorities = new List<ProjeETicaret.Models.i.FavoritiesModels>();
+                        }
+
+
+                    }
+
+                    @{
+                        List<ProjeETicaret.Models.i.CompareModels> compare = (List<ProjeETicaret.Models.i.CompareModels>)Session["Compare"];
+                        if (compare == null)
+                        {
+                            compare = new List<ProjeETicaret.Models.i.CompareModels>();
+                        }
+
+
+                    }
+
+                    <li class="nav-item dropdown">
+                        <a href="#"
+                           class="btn btn-outline-success" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <span class="fa fa-shopping-cart"></span>&nbsp;Sepetim
+
+                            <span class="badge">@basket.Count</span>
+                            <span class="caret"></span>
+                        </a>
+
+
+                        <ul class="dropdown-menu">
+
+                            @foreach (ProjeETicaret.Models.i.BasketModels item in basket)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="~/i/Product/@item.Product.Id">@item.Product.Name (@item.Count)</a>
+                                </li>
+                            }
+
+
+                            <li class="divider" role="separator"></li>
+                            <li><a href="~/i/Basket">Sepete Git</a></li>
+
+
+                        </ul>
+
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a href="#"
+                           class="btn btn-outline-success" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <span class="fa fa-compress"></span>&nbsp;Karşılaştırma
+
+                            <span class="badge">@basket.Count</span>
+                            <span class="caret"></span>
+                        </a>
+
+
+                        <ul class="dropdown-menu">
+
+                            @foreach (ProjeETicaret.Models.i.CompareModels item in compare)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="~/i/Product/@item.Product.Id">@item.Product.Name (@item.Count)</a>
+                                </li>
+                            }
+
+
+                            <li class="divider" role="separator"></li>
+                            <li><a href="~/i/Compare">Karşılaştırılanlar</a></li>
+
+
+                        </ul>
+
+                    </li>
+
+
+
+
+                    @if (logonUser != null)
+                    {
+                        <li class="nav-item">
+                            <a class="btn btn-outline-success" href="~/i/Buy">
+                                <span class="fa fa-usd"></span>&nbsp;Siparişlerim
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="btn btn-outline-success" href="~/i/Favori">
+                                <span class="fa fa-heart"></span>&nbsp;Favorilerim
+                            </a>
+                        </li>
+
+                        @Html.Action("RenderMessage", "Message")
+
+                        <li class="nav-item">
+                            <a class="btn btn-danger" href="~/Account/logout">
+                                <span class="fa fa-sign-out"></span>&nbsp;Çıkış
+                            </a>
+                        </li>
+                    }
+
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+    </nav>
+
+
+    <div class="container">
+        @RenderBody()
+    </div>
+
+</body>
+</html>
+

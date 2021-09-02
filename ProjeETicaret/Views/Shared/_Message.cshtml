@@ -1,0 +1,44 @@
+﻿@model ProjeETicaret.Models.Message.RenderMessageModel
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta Tags -->
+    <title>@ViewBag.Title - Proje ETicaret</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- CSS Styles -->
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/site.css">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap" rel="stylesheet">
+
+    <!-- JavaScript -->
+    <script src="~/Scripts/jquery-3.0.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+
+</head>
+<li class="nav-item dropdown">
+    <a href="#"
+       class="btn btn-outline-secondary" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding-right: 24px;">
+        <span class="fa fa-envelope"></span>&nbsp;Mesajlar
+
+        <span class="badge">@Model.Count</span>
+        <span class="caret"></span>
+    </a>
+
+    <ul class="dropdown-menu">
+        @foreach (var item in Model.Messages)
+        {
+            <li class="nav-item"><a class="nav-link" href="~/Message/MessageReplies/@item.Id">@item.Subject</a></li>
+        }
+        <li class="divider" role="separator"></li>
+        <li><a href="~/Message/i">Mesajlara Git</a></li>
+    </ul>
+</li>
+</html>

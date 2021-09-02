@@ -1,0 +1,23 @@
+﻿@model List<ProjeETicaret.DB.Categories>
+
+
+<nav class="navbar navbar-light" style="background-color: #b7e8b9;">
+    <ul class="nav navbar-nav">
+        @foreach (var cat in Model)
+        {
+            if (cat.Categories1.Any())
+            {
+                <li class="dropdown">
+                    <a style="padding-left: 8px;" href="@Url.Action("index","i",new { id=cat.Id })">@cat.Name<span class="caret"></span></a>
+                    @_MenuHelper.MenuRecursive(cat.Categories1.ToList()) @*Ana kategori yazıldı eğer altı varsa recursive başlıyor*@
+                </li>
+            }
+            else
+            {
+                <li><a class="text-warning bg-dark" href="@Url.Action("index","i",new { id=cat.Id })">@cat.Name</a></li>
+            }
+
+        }
+    </ul>
+</nav>
+

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<ProjeETicaret.DB.Products>
+
+@{
+    ViewBag.Title = "Search";
+}
+<div class="container">
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a href="~/i/Product">Anasayfa</a><span class="divider"></span></li>
+        <li class="breadcrumb-item">Ürünler</li>
+    </ul>
+</div>
+<form>
+    <div class="row">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3 col-sm-4 col-xs-12">
+
+                <center><img src="~/@item.ProductImageName" class="img img-responsive" style="max-height:126px;"></center>
+                <div class="caption">
+                    <h5 class="ProductNameStyle">@item.Name</h5>
+                    <p>
+                        <a href="~/i/AddBasket/@item.Id" class="btn btn-success">
+                            <span class="fa fa-shopping-cart"></span>&nbsp;Sepete Ekle
+                        </a>
+                        <button onclick="GetProductInfo(@item.Id)" class="btn btn-info">
+                            <span class="fa fa-info"></span>&nbsp;Bilgi
+                        </button>
+                    </p>
+                </div>
+
+            </div>
+        }
+    </div>
+</form>
+

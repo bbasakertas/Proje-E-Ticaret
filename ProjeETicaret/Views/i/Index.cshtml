@@ -1,0 +1,91 @@
+﻿@model ProjeETicaret.Models.i.IndexModel
+@{
+    ViewBag.Title = "Index";
+    List<ProjeETicaret.DB.Categories> categories = new List<ProjeETicaret.DB.Categories>();
+    if (Model.Category != null) //Model.Category null değilse
+    {
+        categories.Add(Model.Category); //gönderdiğim kategoriyi aldım
+        var parentcat = Model.Category.Categories2; //onun parent category'sini parentcat'e eşitledim
+        //Categories2 : parent
+        while (parentcat != null) //parentcat null değilse
+        {
+            categories.Add(parentcat); //listeye ekle
+            parentcat = parentcat.Categories2; //parentcat'in parent'ini al yeni parentcat'e eşitle
+        }
+    }
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+
+        <ol class="breadcrumb">
+            <li class="list-group-item list-group-item-action list-group-item-dark"><a href="@Url.Action("index", "i", new { id = 0 })">Anasayfa</a></li>
+            @for (int i = categories.Count - 1; i >= 0; i--)
+            {
+                if (i == 0)
+                {
+                    <li class="breadcrumb-item">@categories[i].Name</li>
+                }
+                else
+                {
+                    <li class="breadcrumb-item"><a href="@Url.Action("index","i",new { id=categories[i].Id })">@categories[i].Name</a></li>
+                }
+
+            }
+
+        </ol>
+        <div class="search" style="padding-left: 845px;">
+
+            @Html.Partial("Arama")
+
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    @foreach (var item in Model.Products)
+    {
+        @Html.Partial("ProductItem", item); //Model burada çalışacak
+    }
+
+</div>
+<div class="modal fade" id="productinfo" tabindex="-1" role="dialog" aria-labelledby="productinfo-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="productinfo-label">Ürün Bilgisi</h4>
+            </div>
+            <div class="modal-body">
+                <p id="modalBodyP"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+                <a href="~/i/AddBasket/Id" id="modelBasketHref" class="btn btn-success">
+                    <span class="fa fa-shopping-cart"></span>&nbsp;Sepete At
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function GetProductInfo(Id) {
+        $("#productinfo").modal("show");
+        $.ajax({
+            url: "/i/GetProductDes/" + Id,
+            method: "GET",
+            async: true,
+            success: function (data) {
+                $("#modalBodyP").text(data);
+                var newHref = $("#modelBasketHref").attr("href");
+                newHref = newHref.replace("/Id", "/" + Id);
+                $("#modelBasketHref").attr("href", newHref);
+            },
+            error: function (err) {
+                console.log("GetProductDes error", err);
+                $("#productinfo").modal("hide");
+            }
+        });
+    }
+</script>

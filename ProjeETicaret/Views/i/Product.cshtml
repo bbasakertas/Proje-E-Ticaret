@@ -1,0 +1,14 @@
+﻿@model ProjeETicaret.Models.i.ProductModels
+
+@{
+    ViewBag.Title = "Product";
+}
+
+
+@Html.Partial("_Product", Model.Product)
+
+@Html.Partial("_AddCart", Model.Product)
+
+@Html.Partial("Arama", Model.Product)
+
+@Html.Partial("_Comments", new ProjeETicaret.Models.i.CommentModels() { Comments = Model.Comments, Product = Model.Product })
